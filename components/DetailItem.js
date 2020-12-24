@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native"
+import SafariView from "react-native-safari-view";
 
 
 export default function ListItem(props) {
@@ -9,7 +10,21 @@ export default function ListItem(props) {
     <View style={list}>
       <Text style={title}>{props.title}</Text>
       <Text style={description}>{props.description}</Text>
-      <Text style={url}>{props.url}</Text>
+      <Button 
+        style={url}
+        title={props.url}
+        onPress={() => {
+          SafariView.isAvailable()
+            .then(() => {
+              SafariView.show({
+                url: props.url
+              })
+            })
+            .catch(()=>{
+              alert("Safari View not available");
+            })
+        }}
+      />
       <Button 
         title="delete"
         onPress={() => {
@@ -36,7 +51,7 @@ export default function ListItem(props) {
 
 const styles = StyleSheet.create({
   list : {
-    height: 140,
+    height: 180,
     marginLeft: 20,
     marginRight: 20,
     marginTop: 10,
@@ -58,7 +73,7 @@ const styles = StyleSheet.create({
   },
   url: {
     color: "#48484A",
-    fontSize: 15,
+    fontSize: 10,
     marginTop: 2,
     paddingLeft: 30,
   }
